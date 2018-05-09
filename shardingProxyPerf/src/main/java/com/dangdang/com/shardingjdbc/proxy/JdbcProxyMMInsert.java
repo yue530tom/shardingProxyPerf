@@ -35,85 +35,66 @@ import com.dangdang.shardingjdbc.utils.DataSourceFactoryProxy;
 import com.dangdang.shardingjdbc.utils.JmeterUtils;
 import com.dangdang.shardingjdbc.utils.TOrderObjectFactory;
 
-public class JdbcProxyMMInsert
-  extends AbstractJavaSamplerClient
-{
-  static AtomicLong seq = new AtomicLong();
-  JdbcProxyMMInsert jdbcProxyMMInsert = null;
-  DataSource dataSource = null;
-  Connection con = null;
-  PreparedStatement stmt = null;
-  ResponseInfo responseInfo = null;
-  
-  public Arguments getDefaultParameters()
-  {
-    Arguments params = new Arguments();
-    
-    return params;
-  }
-  
-  public void setupTest(JavaSamplerContext arg0)
-  {
-    DataSourceFactoryProxy.init();
-    DataSourceFactoryProxy.initJdbcDataSource();
-    this.dataSource = DataSourceFactoryProxy.instance("db");
-    this.responseInfo = new ResponseInfo();
-    this.jdbcProxyMMInsert = new JdbcProxyMMInsert();
-  }
-  
-  public SampleResult runTest(JavaSamplerContext javaSamplerContext)
-  {
-    SampleResult sr = new SampleResult();
-    sr.setSampleLabel("JdbcProxy Insert");
-    try
-    {
-      sr.sampleStart();
-      this.responseInfo = this.jdbcProxyMMInsert.execute(this.dataSource);
-      sr.setResponseData("JdbcProxy Insert:" + this.responseInfo.getResultMsg(), null);
-      if (Configuration.needTestOrNot.booleanValue()) {
-        System.out.println("JdbcProxy Insert:" + this.responseInfo.getResultMsg());
-      }
-      sr.setDataType("text");
-      sr.setSuccessful(true);
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-    finally
-    {
-      sr.sampleEnd();
-    }
-    return sr;
-  }
-  
-  public ResponseInfo execute(DataSource dataSource)
-    throws SQLException
-  {
-    ResponseInfo rI = new ResponseInfo();
-    try
-    {
-      this.con = dataSource.getConnection();
-      TOrderObject tOrderObject = fitObject();
-      rI = JmeterUtils.jdbcProxyInsert(this.stmt, this.con, rI, tOrderObject);
-      if (Configuration.needTestOrNot.booleanValue()) {
-        JmeterUtils.jdbcProxyAssertExecuteQueryByOrderId(this.stmt, this.con, tOrderObject);
-      }
-    }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
-    finally
-    {
-      JmeterUtils.closeConStmt(this.stmt, this.con);
-    }
-    return rI;
-  }
-  
-  public TOrderObject fitObject()
-  {
-    return TOrderObjectFactory.getInsertObj();
-  }
-}
+public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
+    static AtomicLong seq = new AtomicLong();
+    JdbcProxyMMInsert jdbcProxyMMInsert = null;
+    DataSource dataSource = null;
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResponseInfo responseInfo = null;
 
+    public Arguments getDefaultParameters() {
+	Arguments params = new Arguments();
+
+	return params;
+    }
+
+    public void setupTest(JavaSamplerContext arg0) {
+	DataSourceFactoryProxy.init();
+	DataSourceFactoryProxy.initJdbcDataSource();
+	this.dataSource = DataSourceFactoryProxy.instance("db");
+	this.responseInfo = new ResponseInfo();
+	this.jdbcProxyMMInsert = new JdbcProxyMMInsert();
+    }
+
+    public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
+	SampleResult sr = new SampleResult();
+	sr.setSampleLabel("JdbcProxy Insert");
+	try {
+	    sr.sampleStart();
+	    this.responseInfo = this.jdbcProxyMMInsert.execute(this.dataSource);
+	    sr.setResponseData("JdbcProxy Insert:" + this.responseInfo.getResultMsg(), null);
+	    if (Configuration.needTestOrNot.booleanValue()) {
+		System.out.println("JdbcProxy Insert:" + this.responseInfo.getResultMsg());
+	    }
+	    sr.setDataType("text");
+	    sr.setSuccessful(true);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    sr.sampleEnd();
+	}
+	return sr;
+    }
+
+    public ResponseInfo execute(DataSource dataSource) throws SQLException {
+	ResponseInfo rI = new ResponseInfo();
+	try {
+	    this.con = dataSource.getConnection();
+	    TOrderObject tOrderObject = fitObject();
+	    rI = JmeterUtils.jdbcProxyInsert(this.stmt, this.con, rI, tOrderObject);
+	    if (Configuration.needTestOrNot.booleanValue()) {
+		JmeterUtils.jdbcProxyAssertExecuteQueryByOrderId(this.stmt, this.con, tOrderObject);
+	    }
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    JmeterUtils.closeConStmt(this.stmt, this.con);
+	}
+	return rI;
+    }
+
+    public TOrderObject fitObject() {
+	return TOrderObjectFactory.getInsertObj();
+    }
+}

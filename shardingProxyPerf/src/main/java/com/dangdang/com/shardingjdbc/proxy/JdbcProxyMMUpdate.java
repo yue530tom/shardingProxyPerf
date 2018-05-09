@@ -20,8 +20,6 @@ import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
-
-
 import com.dangdang.com.shardingjdbc.utils.conf.Configuration;
 import com.dangdang.com.shardingjdbc.utils.entry.ResponseInfo;
 import com.dangdang.com.shardingjdbc.utils.entry.TOrderObject;
@@ -29,14 +27,14 @@ import com.dangdang.shardingjdbc.utils.DataSourceFactoryProxy;
 import com.dangdang.shardingjdbc.utils.JmeterUtils;
 import com.dangdang.shardingjdbc.utils.TOrderObjectFactory;
 
-/** 
- * @ClassName: JdbcProxyMMUpdate 
+/**
+ * @ClassName: JdbcProxyMMUpdate
  * @Description: TODO
- * @author yueling 
- * @date 2018年5月9日 下午5:21:09 
- *  
+ * @author yueling
+ * @date 2018年5月9日 下午5:21:09
+ * 
  */
-public class JdbcProxyMMUpdate extends AbstractJavaSamplerClient{
+public class JdbcProxyMMUpdate extends AbstractJavaSamplerClient {
     static AtomicLong seq = new AtomicLong();
     JdbcProxyMMUpdate jdbcProxyMMUpdate = null;
     DataSource dataSource = null;
