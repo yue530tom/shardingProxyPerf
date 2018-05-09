@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<configuration>
+	<!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<logger name="com.dangdang" level="debug" additivity="true">
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="com.dangdang.ddframe.rdb.sharding.metrics" level="debug"
+		additivity="true">
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="org.dbunit" level="debug" additivity="true">
+		<appender-ref ref="console" />
+	</logger>
+	<logger
+		name="com.dangdang.ddframe.rdb.sharding.executor.threadlocal.ExecutorExceptionHandler"
+		level="Debug">
+	</logger>
+	<logger name="slf4j" level="debug" additivity="true">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DayFile" />
+	</logger>
+	<!--slf4j2包下的类在ERROR级别时候传递到root logger中 -->
+	<logger name="slf4j2" level="debug" />
+	<!-- 日志级别 -->
+	<root>
+		<level>debug</level>
+		<appender-ref ref="console" />
+	</root>
+</configuration> 
