@@ -50,7 +50,7 @@ public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
     }
 
     public void setupTest(JavaSamplerContext arg0) {
-	this.dataSource = DataSourceFactoryProxy.initMasterSlaveDataSource();
+	this.dataSource = DataSourceFactoryProxy.initDataSource();
 	this.responseInfo = new ResponseInfo();
 	this.jdbcProxyMMInsert = new JdbcProxyMMInsert();
     }

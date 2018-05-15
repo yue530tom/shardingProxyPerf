@@ -21,14 +21,9 @@ import com.jfinal.kit.PropKit;
 public class DataSourceFactoryProxy {
     private static Map<String, DataSource> dateSourceMap = new HashMap<String, DataSource>();
 
-    public static DataSource initShardingDataSource() {
+    public static DataSource initDataSource() {
 	init();
-	return instance("dbsharding");
-    }
-
-    public static DataSource initMasterSlaveDataSource() {
-	init();
-	return instance("dbmasterslave");
+	return instance("db");
     }
 
     public static DataSource instance(String key) {
@@ -36,8 +31,7 @@ public class DataSourceFactoryProxy {
     }
 
     public static void init() {
-	dateSourceMap.put("dbsharding", initDataSource(PropKit.use("db_sharding.properties")));
-	dateSourceMap.put("dbmasterslave", initDataSource(PropKit.use("db_masterslave.properties")));
+	dateSourceMap.put("db", initDataSource(PropKit.use("db.properties")));
     }
 
     private static DataSource initDataSource(Prop databaseConfig) {

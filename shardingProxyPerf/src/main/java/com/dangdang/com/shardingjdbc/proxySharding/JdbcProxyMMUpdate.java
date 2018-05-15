@@ -49,7 +49,7 @@ public class JdbcProxyMMUpdate extends AbstractJavaSamplerClient {
     }
 
     public void setupTest(JavaSamplerContext arg0) {
-	this.dataSource = DataSourceFactoryProxy.initShardingDataSource();
+	this.dataSource = DataSourceFactoryProxy.initDataSource();
 	this.responseInfo = new ResponseInfo();
 	this.jdbcProxyMMUpdate = new JdbcProxyMMUpdate();
     }

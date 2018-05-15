@@ -52,8 +52,7 @@ public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
     }
 
     public void setupTest(JavaSamplerContext arg0) {
-	this.dataSource= DataSourceFactoryProxy.initShardingDataSource();
-	System.err.println("xxxxxxxxxxxxx"+dataSource);
+	this.dataSource= DataSourceFactoryProxy.initDataSource();
 	this.responseInfo = new ResponseInfo();
 	this.jdbcProxyMMInsert = new JdbcProxyMMInsert();
     }
@@ -82,7 +81,6 @@ public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
 	ResponseInfo rI = new ResponseInfo();
 	try {
 	    this.con = dataSource.getConnection();
-	    System.err.println("con:"+this.con);
 	    TOrderObject tOrderObject = fitObject();
 	    rI = JmeterUtils.jdbcProxyInsert(this.stmt, this.con, rI, tOrderObject);
 	    if (Configuration.needTestOrNot.booleanValue()) {
@@ -91,8 +89,7 @@ public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
-	    //JmeterUtils.closeConStmt(this.stmt, this.con);
-	    System.err.println("con:"+this.con);
+	    JmeterUtils.closeConStmt(this.stmt, this.con);
 	}
 	return rI;
     }

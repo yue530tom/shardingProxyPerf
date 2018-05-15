@@ -34,8 +34,8 @@ public class GetTableInfo {
 	HashMap<String, TableInfoObject> tableInfo = new HashMap<String, TableInfoObject>();
 
 	// 做判断是分片还是主从
-	DataSourceFactoryProxy.init();
-	dataSource = DataSourceFactoryProxy.instance(GetProperties.getMode());
+	//DataSourceFactoryProxy.init();
+	dataSource = DataSourceFactoryProxy.initDataSource();
 	con = dataSource.getConnection();
 	stmt = con
 		.prepareStatement("SELECT min(order_id) as minId,max(order_id) as maxId,ip FROM t_order GROUP BY ip;");
