@@ -43,11 +43,11 @@ public class CreateSeqForCRUD {
 	    logger.info("getUniqId first times");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
 	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIp().get(ipStr) == null) {
+		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) == null) {
 		    initId = 0L;
 		} else {
 		    uniqIdFirstFlag = ipStr;
-		    initId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIp().get(uniqIdFirstFlag)).getMax();
+		    initId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(uniqIdFirstFlag)).getMax();
 		}
 	    } catch (SQLException e) {
 		e.printStackTrace();
@@ -64,10 +64,10 @@ public class CreateSeqForCRUD {
 	    logger.info("getRangeId first time");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
 	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIp().get(ipStr) != null) {
+		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) != null) {
 		    rangeIdFirstFlag = ipStr;
-		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIp().get(rangeIdFirstFlag)).getMaxSeq();
-		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIp().get(rangeIdFirstFlag)).getMinSeq();
+		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(rangeIdFirstFlag)).getMaxSeq();
+		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(rangeIdFirstFlag)).getMinSeq();
 		}
 	    } catch (SQLException e) {
 		e.printStackTrace();
@@ -84,10 +84,10 @@ public class CreateSeqForCRUD {
 	    logger.info("getMinId first time");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
 	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIp().get(ipStr) != null) {
+		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) != null) {
 		    minIdFirstFlag = ipStr;
-		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIp().get(minIdFirstFlag)).getMinSeq();
-		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIp().get(minIdFirstFlag)).getMaxSeq();
+		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(minIdFirstFlag)).getMinSeq();
+		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(minIdFirstFlag)).getMaxSeq();
 		}
 	    } catch (SQLException e) {
 		e.printStackTrace();

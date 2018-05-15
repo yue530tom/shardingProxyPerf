@@ -6,7 +6,7 @@
  * @date 2018年5月9日 下午5:22:03 
  * @version V1.0   
  */
-package com.dangdang.com.shardingjdbc.proxy;
+package com.dangdang.com.shardingjdbc.proxySharding;
 
 /** 
  * @ClassName: JdbcProxyMMSelectTest 
@@ -18,6 +18,8 @@ package com.dangdang.com.shardingjdbc.proxy;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 
+import com.dangdang.com.shardingjdbc.proxySharding.JdbcProxyMMSelect;
+
 public class JdbcProxyMMSelectTest {
     public static void main(String[] args) {
 	Arguments params = new Arguments();
@@ -25,7 +27,7 @@ public class JdbcProxyMMSelectTest {
 	JavaSamplerContext arg0 = new JavaSamplerContext(params);
 	JdbcProxyMMSelect test = new JdbcProxyMMSelect();
 	test.setupTest(arg0);
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1; i++) {
 	    test.runTest(arg0);
 	}
 	test.teardownTest(arg0);

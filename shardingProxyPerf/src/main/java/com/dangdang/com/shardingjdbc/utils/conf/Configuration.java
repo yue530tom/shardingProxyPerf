@@ -17,8 +17,7 @@ package com.dangdang.com.shardingjdbc.utils.conf;
  */
 public class Configuration
 {
-  public static Boolean needTestOrNot = false;
-  public static int numOfDatabases = 2;
-  public static int numOfTablses = 4;
+  public static Boolean needTestOrNot = true;
+  public static String mode = "sharding";
 }
 

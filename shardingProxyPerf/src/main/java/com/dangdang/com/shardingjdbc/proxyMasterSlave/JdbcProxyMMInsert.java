@@ -1,12 +1,12 @@
 /**   
- * @Title: JdbcProxyMMSelect.java 
+ * @Title: JdbcProxyMMInsert.java 
  * @Package com.dangdang.com.shardingjdbc.proxy 
  * @Description: TODO
  * @author yueling yueling@dangdang.com
- * @date 2018年5月9日 下午5:20:43 
+ * @date 2018年5月9日 下午5:19:32 
  * @version V1.0   
  */
-package com.dangdang.com.shardingjdbc.proxy;
+package com.dangdang.com.shardingjdbc.proxyMasterSlave;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +21,10 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
 /** 
- * @ClassName: JdbcProxyMMSelect 
+ * @ClassName: JdbcProxyMMInsert 
  * @Description: TODO
  * @author yueling 
- * @date 2018年5月9日 下午5:20:43 
+ * @date 2018年5月9日 下午5:19:32 
  *  
  */
 
@@ -35,9 +35,9 @@ import com.dangdang.shardingjdbc.utils.DataSourceFactoryProxy;
 import com.dangdang.shardingjdbc.utils.JmeterUtils;
 import com.dangdang.shardingjdbc.utils.TOrderObjectFactory;
 
-public class JdbcProxyMMSelect extends AbstractJavaSamplerClient {
+public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
     static AtomicLong seq = new AtomicLong();
-    JdbcProxyMMSelect jdbcProxyMMSelect = null;
+    JdbcProxyMMInsert jdbcProxyMMInsert = null;
     DataSource dataSource = null;
     Connection con = null;
     PreparedStatement stmt = null;
@@ -50,22 +50,20 @@ public class JdbcProxyMMSelect extends AbstractJavaSamplerClient {
     }
 
     public void setupTest(JavaSamplerContext arg0) {
-	DataSourceFactoryProxy.init();
-	DataSourceFactoryProxy.initJdbcDataSource();
-	this.dataSource = DataSourceFactoryProxy.instance("db");
+	this.dataSource = DataSourceFactoryProxy.initMasterSlaveDataSource();
 	this.responseInfo = new ResponseInfo();
-	this.jdbcProxyMMSelect = new JdbcProxyMMSelect();
+	this.jdbcProxyMMInsert = new JdbcProxyMMInsert();
     }
 
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
 	SampleResult sr = new SampleResult();
-	sr.setSampleLabel("JdbcProxy Select");
+	sr.setSampleLabel("JdbcProxy Insert");
 	try {
 	    sr.sampleStart();
-	    this.responseInfo = this.jdbcProxyMMSelect.execute(this.dataSource);
-	    sr.setResponseData("JdbcProxy Select:" + this.responseInfo.getResultMsg(), null);
+	    this.responseInfo = this.jdbcProxyMMInsert.execute(this.dataSource);
+	    sr.setResponseData("JdbcProxy Insert:" + this.responseInfo.getResultMsg(), null);
 	    if (Configuration.needTestOrNot.booleanValue()) {
-		System.out.println("JdbcProxy Select:" + this.responseInfo.getResultMsg());
+		System.out.println("JdbcProxy Insert:" + this.responseInfo.getResultMsg());
 	    }
 	    sr.setDataType("text");
 	    sr.setSuccessful(true);
@@ -79,12 +77,12 @@ public class JdbcProxyMMSelect extends AbstractJavaSamplerClient {
 
     public ResponseInfo execute(DataSource dataSource) throws SQLException {
 	ResponseInfo rI = new ResponseInfo();
-	TOrderObject tOrderObject = fitObject();
 	try {
 	    this.con = dataSource.getConnection();
-	    JmeterUtils.jdbcProxySelect(this.stmt, this.con, rI, tOrderObject);
+	    TOrderObject tOrderObject = fitObject();
+	    rI = JmeterUtils.jdbcProxyInsert(this.stmt, this.con, rI, tOrderObject);
 	    if (Configuration.needTestOrNot.booleanValue()) {
-		JmeterUtils.jdbcProxyAssertExecuteQueryById(this.stmt, this.con, tOrderObject);
+		JmeterUtils.jdbcProxyAssertExecuteQueryByOrderId(this.stmt, this.con, tOrderObject);
 	    }
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -95,6 +93,6 @@ public class JdbcProxyMMSelect extends AbstractJavaSamplerClient {
     }
 
     public TOrderObject fitObject() {
-	return TOrderObjectFactory.getSelectUpdateObj();
+	return TOrderObjectFactory.getInsertObj();
     }
 }

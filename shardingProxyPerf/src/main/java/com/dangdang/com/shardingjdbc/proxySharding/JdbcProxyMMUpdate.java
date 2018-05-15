@@ -6,7 +6,7 @@
  * @date 2018年5月9日 下午5:21:09 
  * @version V1.0   
  */
-package com.dangdang.com.shardingjdbc.proxy;
+package com.dangdang.com.shardingjdbc.proxySharding;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,9 +49,7 @@ public class JdbcProxyMMUpdate extends AbstractJavaSamplerClient {
     }
 
     public void setupTest(JavaSamplerContext arg0) {
-	DataSourceFactoryProxy.init();
-	DataSourceFactoryProxy.initJdbcDataSource();
-	this.dataSource = DataSourceFactoryProxy.instance("db");
+	this.dataSource = DataSourceFactoryProxy.initShardingDataSource();
 	this.responseInfo = new ResponseInfo();
 	this.jdbcProxyMMUpdate = new JdbcProxyMMUpdate();
     }

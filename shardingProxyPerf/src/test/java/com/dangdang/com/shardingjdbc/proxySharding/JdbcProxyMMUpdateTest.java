@@ -6,7 +6,7 @@
  * @date 2018年5月9日 下午5:21:48 
  * @version V1.0   
  */
-package com.dangdang.com.shardingjdbc.proxy;
+package com.dangdang.com.shardingjdbc.proxySharding;
 
 /** 
  * @ClassName: JdbcProxyMMUpdateTest 
@@ -18,6 +18,8 @@ package com.dangdang.com.shardingjdbc.proxy;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
+
+import com.dangdang.com.shardingjdbc.proxySharding.JdbcProxyMMUpdate;
 
 public class JdbcProxyMMUpdateTest {
     public static void main(String[] args) {

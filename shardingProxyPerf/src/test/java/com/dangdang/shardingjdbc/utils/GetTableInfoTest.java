@@ -28,9 +28,10 @@ public class GetTableInfoTest {
     static Logger logger = Logger.getLogger("com.dangdang.com.shardingjdbc.utils.GetTableInfoTest");
 
     public static void main(String[] args) throws SQLException {
-	HashMap<String, TableInfoObject> resultHashMap = GetTableInfo.getTableMinMaxRowGroupByIp();
+	HashMap<String, TableInfoObject> resultHashMap = GetTableInfo.getTableMinMaxRowGroupByIpExp();
 
 	Iterator<Map.Entry<String, TableInfoObject>> iter = resultHashMap.entrySet().iterator();
+
 	while (iter.hasNext()) {
 	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter.next();
 

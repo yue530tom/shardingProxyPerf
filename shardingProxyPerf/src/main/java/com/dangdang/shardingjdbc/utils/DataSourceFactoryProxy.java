@@ -8,8 +8,6 @@
  */
 package com.dangdang.shardingjdbc.utils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,28 +15,20 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
-/** 
- * @ClassName: DataSourceFactoryProxy 
- * @Description: TODO
- * @author yueling 
- * @date 2018年5月9日 下午5:25:15 
- *  
- */
-
-import com.dangdang.com.shardingjdbc.utils.conf.Configuration;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 
 public class DataSourceFactoryProxy {
     private static Map<String, DataSource> dateSourceMap = new HashMap<String, DataSource>();
-    public static DataSource[] dataSources = new DataSource[Configuration.numOfDatabases + 1];
-    public static Connection[] cons = new Connection[Configuration.numOfDatabases + 1];
 
-    public static DataSource[] initJdbcDataSource() {
-	dataSources[0] = instance("db");
-	dataSources[1] = instance("db0");
-	dataSources[2] = instance("db1");
-	return dataSources;
+    public static DataSource initShardingDataSource() {
+	init();
+	return instance("dbsharding");
+    }
+
+    public static DataSource initMasterSlaveDataSource() {
+	init();
+	return instance("dbmasterslave");
     }
 
     public static DataSource instance(String key) {
@@ -46,22 +36,8 @@ public class DataSourceFactoryProxy {
     }
 
     public static void init() {
-	dateSourceMap.put("db", initDataSource(PropKit.use("db.properties")));
-	dateSourceMap.put("db0", initDataSource(PropKit.use("db0.properties")));
-	dateSourceMap.put("db1", initDataSource(PropKit.use("db1.properties")));
-    }
-
-    public static Connection[] getJDBCConnect() {
-	init();
-	initJdbcDataSource();
-	for (int i = 0; i < cons.length; i++) {
-	    try {
-		cons[i] = dataSources[i].getConnection();
-	    } catch (SQLException e) {
-		e.printStackTrace();
-	    }
-	}
-	return cons;
+	dateSourceMap.put("dbsharding", initDataSource(PropKit.use("db_sharding.properties")));
+	dateSourceMap.put("dbmasterslave", initDataSource(PropKit.use("db_masterslave.properties")));
     }
 
     private static DataSource initDataSource(Prop databaseConfig) {
