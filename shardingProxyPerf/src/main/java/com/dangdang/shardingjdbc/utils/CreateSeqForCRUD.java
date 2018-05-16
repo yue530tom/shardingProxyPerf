@@ -8,7 +8,6 @@
  */
 package com.dangdang.shardingjdbc.utils;
 
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
 /** 
@@ -23,16 +22,14 @@ import com.dangdang.com.shardingjdbc.utils.entry.TableInfoObject;
 
 public class CreateSeqForCRUD {
     static Logger logger = Logger.getLogger("com.dangdang.com.shardingjdbc.utils.CreateSeqForCRUD");
-    
-    
+
     /**
-     * 说明为什么要设计3个变量：
-     * 	3个标记分别对应3中场景获取序号，如果用统一的变量，在综合场景可能会在某些极端的情况影响刚开的结果
+     * 说明为什么要设计3个变量： 3个标记分别对应3中场景获取序号，如果用统一的变量，在综合场景可能会在某些极端的情况影响刚开的结果
      */
     public static String uniqIdFirstFlag = null;
     public static String rangeIdFirstFlag = null;
     public static String minIdFirstFlag = null;
-    
+
     public static String tmpSeq = "0";
     public static long initId = 0L;
     public static long minId = 0L;
@@ -42,15 +39,12 @@ public class CreateSeqForCRUD {
 	if (uniqIdFirstFlag == null) {
 	    logger.info("getUniqId first times");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) == null) {
-		    initId = 0L;
-		} else {
-		    uniqIdFirstFlag = ipStr;
-		    initId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(uniqIdFirstFlag)).getMax();
-		}
-	    } catch (SQLException e) {
-		e.printStackTrace();
+	    if (GetTableInfo.tableInfo.get(ipStr) == null) {
+	        initId = 0L;
+	    } else {
+	        uniqIdFirstFlag = ipStr;
+	        initId = ((TableInfoObject) GetTableInfo.tableInfo.get(uniqIdFirstFlag))
+	    	    .getMax();
 	    }
 	}
 	if (initId != 0L) {
@@ -63,14 +57,12 @@ public class CreateSeqForCRUD {
 	if (rangeIdFirstFlag == null) {
 	    logger.info("getRangeId first time");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) != null) {
-		    rangeIdFirstFlag = ipStr;
-		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(rangeIdFirstFlag)).getMaxSeq();
-		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(rangeIdFirstFlag)).getMinSeq();
-		}
-	    } catch (SQLException e) {
-		e.printStackTrace();
+	    if (GetTableInfo.tableInfo.get(ipStr) != null) {
+	        rangeIdFirstFlag = ipStr;
+	        minId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag))
+	    	    .getMaxSeq();
+	        maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag))
+	    	    .getMinSeq();
 	    }
 	}
 	if ((minId != 0L) && (maxId != 0L)) {
@@ -83,14 +75,12 @@ public class CreateSeqForCRUD {
 	if (minIdFirstFlag == null) {
 	    logger.info("getMinId first time");
 	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    try {
-		if (GetTableInfo.getTableMinMaxRowGroupByIpExp().get(ipStr) != null) {
-		    minIdFirstFlag = ipStr;
-		    minId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(minIdFirstFlag)).getMinSeq();
-		    maxId = ((TableInfoObject) GetTableInfo.getTableMinMaxRowGroupByIpExp().get(minIdFirstFlag)).getMaxSeq();
-		}
-	    } catch (SQLException e) {
-		e.printStackTrace();
+	    if (GetTableInfo.tableInfo.get(ipStr) != null) {
+	        minIdFirstFlag = ipStr;
+	        minId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag))
+	    	    .getMinSeq();
+	        maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag))
+	    	    .getMaxSeq();
 	    }
 	}
 	long tempId = minId + FormatSeqUtils.getSeqId() - 1L;

@@ -27,7 +27,7 @@ public class JdbcProxyMMSelectTest {
 	JavaSamplerContext arg0 = new JavaSamplerContext(params);
 	JdbcProxyMMSelect test = new JdbcProxyMMSelect();
 	test.setupTest(arg0);
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 10; i++) {
 	    test.runTest(arg0);
 	}
 	test.teardownTest(arg0);

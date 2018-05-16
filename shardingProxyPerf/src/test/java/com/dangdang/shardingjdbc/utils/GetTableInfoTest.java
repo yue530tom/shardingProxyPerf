@@ -28,12 +28,43 @@ public class GetTableInfoTest {
     static Logger logger = Logger.getLogger("com.dangdang.com.shardingjdbc.utils.GetTableInfoTest");
 
     public static void main(String[] args) throws SQLException {
-	HashMap<String, TableInfoObject> resultHashMap = GetTableInfo.getTableMinMaxRowGroupByIpExp();
+/*	HashMap<String, TableInfoObject> resultHashMap = GetTableInfo.getTableMinMaxRowGroupByIpExp();
 
 	Iterator<Map.Entry<String, TableInfoObject>> iter = resultHashMap.entrySet().iterator();
 
 	while (iter.hasNext()) {
 	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter.next();
+
+	    logger.info("ip:" + (String) entry.getKey() + "\tmin:" + ((TableInfoObject) entry.getValue()).getMin()
+		    + "\tmax:" + ((TableInfoObject) entry.getValue()).getMax() + "\tminSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMinSeq() + "\tmaxSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMaxSeq());
+	}*/
+	
+	HashMap<String, TableInfoObject> resultHashMap1=GetTableInfo.tableInfo;
+	Iterator<Map.Entry<String, TableInfoObject>> iter1 = resultHashMap1.entrySet().iterator();
+	while (iter1.hasNext()) {
+	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter1.next();
+
+	    logger.info("ip:" + (String) entry.getKey() + "\tmin:" + ((TableInfoObject) entry.getValue()).getMin()
+		    + "\tmax:" + ((TableInfoObject) entry.getValue()).getMax() + "\tminSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMinSeq() + "\tmaxSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMaxSeq());
+	}
+	resultHashMap1=GetTableInfo.tableInfo;
+	iter1 = resultHashMap1.entrySet().iterator();
+	while (iter1.hasNext()) {
+	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter1.next();
+
+	    logger.info("ip:" + (String) entry.getKey() + "\tmin:" + ((TableInfoObject) entry.getValue()).getMin()
+		    + "\tmax:" + ((TableInfoObject) entry.getValue()).getMax() + "\tminSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMinSeq() + "\tmaxSeq:"
+		    + ((TableInfoObject) entry.getValue()).getMaxSeq());
+	}
+	resultHashMap1=GetTableInfo.tableInfo;
+	iter1 = resultHashMap1.entrySet().iterator();
+	while (iter1.hasNext()) {
+	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter1.next();
 
 	    logger.info("ip:" + (String) entry.getKey() + "\tmin:" + ((TableInfoObject) entry.getValue()).getMin()
 		    + "\tmax:" + ((TableInfoObject) entry.getValue()).getMax() + "\tminSeq:"
