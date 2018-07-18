@@ -76,13 +76,15 @@ public class GetTableInfo {
 	Iterator<Map.Entry<String, TableInfoObject>> iter = tableInfo.entrySet().iterator();
 	while (iter.hasNext()) {
 	    Map.Entry<String, TableInfoObject> entry = (Entry<String, TableInfoObject>) iter.next();
-
-	    ((TableInfoObject) entry.getValue())
-		    .setMaxSeq(Long.valueOf(String.valueOf(((TableInfoObject) entry.getValue()).getMax())
-			    .substring(((String) entry.getKey()).length())).longValue());
-	    ((TableInfoObject) entry.getValue())
-		    .setMinSeq(Long.valueOf(String.valueOf(((TableInfoObject) entry.getValue()).getMin())
-			    .substring(((String) entry.getKey()).length())).longValue());
+	    TableInfoObject tableInfoObject = (TableInfoObject) entry.getValue();
+	    if (String.valueOf(tableInfoObject.getMax()).startsWith((String) entry.getKey())) {
+		tableInfoObject.setMaxSeq(Long.valueOf(String.valueOf(tableInfoObject.getMax()).substring(((String) entry.getKey()).length())).longValue());
+		tableInfoObject.setMinSeq(Long.valueOf(String.valueOf(tableInfoObject.getMin()).substring(((String) entry.getKey()).length())).longValue());
+	    }else {
+		tableInfoObject.setMaxSeq(tableInfoObject.getMax());
+		tableInfoObject.setMinSeq(tableInfoObject.getMin());
+	    }
+	    
 	}
 	return tableInfo;
     }

@@ -8,6 +8,8 @@
  */
 package com.dangdang.shardingjdbc.utils;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 /** 
@@ -34,17 +36,29 @@ public class CreateSeqForCRUD {
     public static long initId = 0L;
     public static long minId = 0L;
     public static long maxId = 0L;
+    private static final Lock queueLock = new ReentrantLock();
+    private static final Lock queueLockRange = new ReentrantLock();
+    private static final Lock queueLockMin = new ReentrantLock();
 
     public static long getUniqId() {
+
 	if (uniqIdFirstFlag == null) {
-	    logger.info("getUniqId first times");
-	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    if (GetTableInfo.tableInfo.get(ipStr) == null) {
-	        initId = 0L;
-	    } else {
-	        uniqIdFirstFlag = ipStr;
-	        initId = ((TableInfoObject) GetTableInfo.tableInfo.get(uniqIdFirstFlag))
-	    	    .getMax();
+	    queueLock.lock();// 获取Lock对象的控制权
+	    try {
+		if (uniqIdFirstFlag == null) {
+		    logger.info("getUniqId first times");
+		    String ipStr = Integer.toString(FormatSeqUtils.getip());
+		    if (GetTableInfo.tableInfo.get(ipStr) == null) {
+			initId = 0L;
+		    } else {
+			uniqIdFirstFlag = ipStr;
+			initId = ((TableInfoObject) GetTableInfo.tableInfo.get(uniqIdFirstFlag)).getMax();
+		    }
+		}
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    } finally {
+		queueLock.unlock();// 释放Lock对象的控制
 	    }
 	}
 	if (initId != 0L) {
@@ -55,14 +69,21 @@ public class CreateSeqForCRUD {
 
     public static long getRangeId() {
 	if (rangeIdFirstFlag == null) {
-	    logger.info("getRangeId first time");
-	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    if (GetTableInfo.tableInfo.get(ipStr) != null) {
-	        rangeIdFirstFlag = ipStr;
-	        minId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag))
-	    	    .getMaxSeq();
-	        maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag))
-	    	    .getMinSeq();
+	    queueLockRange.lock();// 获取Lock对象的控制权
+	    try {
+		if (rangeIdFirstFlag == null) {
+		    logger.info("getRangeId first time");
+		    String ipStr = Integer.toString(FormatSeqUtils.getip());
+		    if (GetTableInfo.tableInfo.get(ipStr) != null) {
+			rangeIdFirstFlag = ipStr;
+			minId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag)).getMinSeq();
+			maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(rangeIdFirstFlag)).getMaxSeq();
+		    }
+		}
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    } finally {
+		queueLockRange.unlock();// 释放Lock对象的控制
 	    }
 	}
 	if ((minId != 0L) && (maxId != 0L)) {
@@ -73,14 +94,21 @@ public class CreateSeqForCRUD {
 
     public static long getMinId() {
 	if (minIdFirstFlag == null) {
-	    logger.info("getMinId first time");
-	    String ipStr = Integer.toString(FormatSeqUtils.getip());
-	    if (GetTableInfo.tableInfo.get(ipStr) != null) {
-	        minIdFirstFlag = ipStr;
-	        minId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag))
-	    	    .getMinSeq();
-	        maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag))
-	    	    .getMaxSeq();
+	    queueLockMin.lock();// 获取Lock对象的控制权
+	    try {
+		if (minIdFirstFlag == null) {
+		    logger.info("getMinId first time");
+		    String ipStr = Integer.toString(FormatSeqUtils.getip());
+		    if (GetTableInfo.tableInfo.get(ipStr) != null) {
+			minIdFirstFlag = ipStr;
+			minId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag)).getMinSeq();
+			maxId = ((TableInfoObject) GetTableInfo.tableInfo.get(minIdFirstFlag)).getMaxSeq();
+		    }
+		}
+	    }catch (Exception e) {
+		e.printStackTrace();
+	    } finally {
+		queueLockMin.unlock();// 释放Lock对象的控制
 	    }
 	}
 	long tempId = minId + FormatSeqUtils.getSeqId() - 1L;

@@ -35,8 +35,6 @@ import com.dangdang.shardingjdbc.utils.DataSourceFactoryProxy;
 import com.dangdang.shardingjdbc.utils.JmeterUtils;
 import com.dangdang.shardingjdbc.utils.TOrderObjectFactory;
 
-import bsh.This;
-
 public class JdbcProxyMMInsert extends AbstractJavaSamplerClient {
     static AtomicLong seq = new AtomicLong();
     JdbcProxyMMInsert jdbcProxyMMInsert = null;
